@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Stadium Experience</title>
+    <meta name="description" content="Premium smart stadium experience for IPL attendees">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Smart Stadium</span>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" aria-label="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="badge pulse"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="content">
+            
+            <!-- Live Match View -->
+            <section id="live-match" class="view active">
+                <div class="view-header">
+                    <h2>Live Center</h2>
+                    <span class="live-indicator"><i class="fa-solid fa-circle"></i> LIVE</span>
+                </div>
+                
+                <div class="glass-card match-card">
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-logo rcb">RCB</div>
+                            <h3>Royal Challengers</h3>
+                            <p class="score" id="team1-score">184/4</p>
+                            <p class="overs" id="team1-overs">(18.2)</p>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team">
+                            <div class="team-logo csk">CSK</div>
+                            <h3>Super Kings</h3>
+                            <p class="score" id="team2-score">Yet to bat</p>
+                            <p class="overs" id="team2-overs"></p>
+                        </div>
+                    </div>
+                    <div class="match-status">
+                        <p id="match-equation">RCB need 12 runs to reach 196</p>
+                        <div class="crr-req">
+                            <span>CRR: <strong id="crr">10.05</strong></span>
+                            <span>Proj: <strong>205</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card timeline-card">
+                    <h3>Recent Balls</h3>
+                    <div class="recent-balls" id="recent-balls">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div class="glass-card batter-bowler-card">
+                    <div class="batters">
+                        <h3>Batters</h3>
+                        <div class="player-row active-player">
+                            <span>V Kohli *</span>
+                            <span>82 (48)</span>
+                        </div>
+                        <div class="player-row">
+                            <span>G Maxwell</span>
+                            <span>45 (22)</span>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="bowlers">
+                        <h3>Bowler</h3>
+                        <div class="player-row active-player">
+                            <span>M Pathirana *</span>
+                            <span>2-32 (3.2)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stadium Map View -->
+            <section id="stadium-map" class="view">
+                <div class="view-header">
+                    <h2>Stadium Navigation</h2>
+                </div>
+                <div class="glass-card map-container">
+                    <div class="map-controls">
+                        <button class="icon-btn"><i class="fa-solid fa-plus"></i></button>
+                        <button class="icon-btn"><i class="fa-solid fa-minus"></i></button>
+                        <button class="icon-btn"><i class="fa-solid fa-location-crosshairs"></i></button>
+                    </div>
+                    <img src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_w_1280,q_80/lsci/db/PICTURES/DB/032001/023320.gif" alt="M Chinnaswamy Stadium Map" class="stadium-image">
+                    
+                    <div class="map-overlay">
+                        <div class="poi"><i class="fa-solid fa-utensils"></i> Food Court (5 min wait)</div>
+                        <div class="poi warning"><i class="fa-solid fa-restroom"></i> Restroom A (Crowded)</div>
+                    </div>
+                </div>
+                <div class="glass-card info-card">
+                    <h3>Your Seat: Stand G, Block 3, Row M, Seat 45</h3>
+                    <button class="btn primary-btn"><i class="fa-solid fa-route"></i> Navigate to Seat</button>
+                </div>
+            </section>
+
+            <!-- Tickets View -->
+            <section id="tickets" class="view">
+                <div class="view-header">
+                    <h2>Digital Pass</h2>
+                </div>
+                <div class="glass-card ticket-card">
+                    <div class="ticket-header">
+                        <div class="match-info">
+                            <h3>RCB vs CSK</h3>
+                            <p>M Chinnaswamy Stadium</p>
+                            <p>May 18, 2024 • 19:30 IST</p>
+                        </div>
+                        <img src="https://pbs.twimg.com/media/FrUoEVeakAIebQA.jpg" alt="IPL Ticket" class="ticket-image">
+                    </div>
+                    <div class="ticket-details">
+                        <div class="detail">
+                            <span>Gate</span>
+                            <strong>4</strong>
+                        </div>
+                        <div class="detail">
+                            <span>Stand</span>
+                            <strong>G</strong>
+                        </div>
+                        <div class="detail">
+                            <span>Seat</span>
+                            <strong>M-45</strong>
+                        </div>
+                    </div>
+                    <div class="qr-code-container">
+                        <div class="qr-placeholder">
+                            <i class="fa-solid fa-qrcode"></i>
+                            <p>Scan at Gate 4</p>
+                        </div>
+                        <p class="ticket-note">Please keep screen brightness high for scanning.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transit & Routes View -->
+            <section id="routes" class="view">
+                <div class="view-header">
+                    <h2>Transit Hub</h2>
+                </div>
+                
+                <div class="route-options">
+                    <a href="https://www.google.com/maps/dir/M.+Chinnaswamy+Stadium,+Mahatma+Gandhi+Rd,+near+Cubbon+Road,+Shivaji+Nagar,+Bengaluru,+Karnataka+560001/Kempegowda+International+Airport+Bengaluru,+Karnataka+560300/@13.0910003,77.5632331,28494m/data=!3m1!1e3!4m13!4m12!1m5!1m1!1s0x3bae1664d3619b53:0xc13769784709aec!2m2!1d77.5996565!2d12.978813!1m5!1m1!1s0x3bae1cfe75446265:0x296c70e9a129418e!2m2!1d77.7068926!2d13.198909?entry=ttu&g_ep=EgoyMDI2MDQxNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="glass-card route-card">
+                        <div class="route-icon"><i class="fa-solid fa-plane"></i></div>
+                        <div class="route-info">
+                            <h3>Airport Route</h3>
+                            <p>Kempegowda International Airport</p>
+                            <span class="eta">~ 60 mins</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </a>
+
+                    <a href="https://www.google.com/maps/dir/M.+Chinnaswamy+Stadium,+Mahatma+Gandhi+Rd,+near+Cubbon+Road,+Shivaji+Nagar,+Bengaluru,+Karnataka+560001/Railway+Station+Road,+Kempegowda,+Majestic,+Bengaluru,+Karnataka+560023/@12.9743268,77.5750251,3395m/data=!3m2!1e3!4b1!4m13!4m12!1m5!1m1!1s0x3bae1664d3619b53:0xc13769784709aec!2m2!1d77.5996565!2d12.978813!1m5!1m1!1s0x3bae161b289fcd15:0x131c5c9004e14250!2m2!1d77.5698186!2d12.9781204?entry=ttu&g_ep=EgoyMDI2MDQxNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="glass-card route-card">
+                        <div class="route-icon"><i class="fa-solid fa-train"></i></div>
+                        <div class="route-info">
+                            <h3>Railway Station</h3>
+                            <p>KSR Bengaluru City Junction</p>
+                            <span class="eta">~ 25 mins</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </a>
+
+                    <a href="https://www.google.com/maps/dir/M.+Chinnaswamy+Stadium,+Mahatma+Gandhi+Rd,+near+Cubbon+Road,+Shivaji+Nagar,+Bengaluru,+Karnataka+560001/Bus+Stand,+216,+Meenakshi+Kovil+St,+Near,+Shivaji+Nagar,+Bengaluru,+Karnataka+560051/@12.9795842,77.5952022,1697m/data=!3m2!1e3!4b1!4m13!4m12!1m5!1m1!1s0x3bae1664d3619b53:0xc13769784709aec!2m2!1d77.5996565!2d12.978813!1m5!1m1!1s0x3bae1663e3536bd1:0x26ade9349fe90a89!2m2!1d77.6027796!2d12.9842131?entry=ttu&g_ep=EgoyMDI2MDQxNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="glass-card route-card">
+                        <div class="route-icon"><i class="fa-solid fa-bus"></i></div>
+                        <div class="route-info">
+                            <h3>Nearest Bus Stop</h3>
+                            <p>Shivaji Nagar Bus Terminus</p>
+                            <span class="eta">~ 10 mins (Walk)</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </a>
+                </div>
+
+                <div class="glass-card promo-card">
+                    <i class="fa-brands fa-uber"></i>
+                    <div class="promo-text">
+                        <h3>Book a Ride</h3>
+                        <p>Get 20% off your ride to the stadium.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile View -->
+            <section id="profile" class="view">
+                <div class="view-header">
+                    <h2>Fan Profile</h2>
+                </div>
+                
+                <div class="glass-card profile-header">
+                    <div class="avatar">JD</div>
+                    <div class="profile-info">
+                        <h3>John Doe</h3>
+                        <p>Super Fan • 2,450 Points</p>
+                    </div>
+                    <button class="icon-btn"><i class="fa-solid fa-gear"></i></button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="glass-card stat">
+                        <i class="fa-solid fa-ticket"></i>
+                        <h4>12</h4>
+                        <p>Matches Attended</p>
+                    </div>
+                    <div class="glass-card stat">
+                        <i class="fa-solid fa-store"></i>
+                        <h4>$450</h4>
+                        <p>Merch Spend</p>
+                    </div>
+                </div>
+
+                <div class="glass-card history-card">
+                    <h3>Recent Matches</h3>
+                    <ul class="history-list">
+                        <li>
+                            <div class="match">RCB vs MI</div>
+                            <div class="date">May 10, 2024</div>
+                        </li>
+                        <li>
+                            <div class="match">RCB vs KKR</div>
+                            <div class="date">May 02, 2024</div>
+                        </li>
+                        <li>
+                            <div class="match">RCB vs SRH</div>
+                            <div class="date">April 15, 2024</div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Emergency View -->
+            <section id="emergency" class="view">
+                <div class="view-header">
+                    <h2>Emergency Assistance</h2>
+                </div>
+                
+                <div class="glass-card emergency-alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <h3>Need Immediate Help?</h3>
+                    <p>Pressing the SOS button will alert stadium security to your exact seat location.</p>
+                    <button class="btn danger-btn pulse-danger" id="sos-btn">SOS Alert</button>
+                </div>
+
+                <div class="emergency-contacts">
+                    <a href="tel:100" class="glass-card route-card emergency-contact">
+                        <div class="route-icon danger"><i class="fa-solid fa-phone"></i></div>
+                        <div class="route-info">
+                            <h3>Police Control Room</h3>
+                            <p>Dial 100</p>
+                        </div>
+                    </a>
+
+                    <a href="tel:108" class="glass-card route-card emergency-contact">
+                        <div class="route-icon danger"><i class="fa-solid fa-truck-medical"></i></div>
+                        <div class="route-info">
+                            <h3>Medical Emergency</h3>
+                            <p>Stadium Medical Team & Ambulance</p>
+                        </div>
+                    </a>
+
+                    <div class="glass-card route-card emergency-contact">
+                        <div class="route-icon warning"><i class="fa-solid fa-child"></i></div>
+                        <div class="route-info">
+                            <h3>Lost & Found / Missing Child</h3>
+                            <p>Near Gate 3 Information Desk</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation (Mobile First) -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-target="live-match">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Live</span>
+            </button>
+            <button class="nav-item" data-target="stadium-map">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>Map</span>
+            </button>
+            <button class="nav-item" data-target="tickets">
+                <i class="fa-solid fa-ticket-simple"></i>
+                <span>Tickets</span>
+            </button>
+            <button class="nav-item" data-target="routes">
+                <i class="fa-solid fa-train-subway"></i>
+                <span>Transit</span>
+            </button>
+            <button class="nav-item" data-target="profile">
+                <i class="fa-regular fa-user"></i>
+                <span>Profile</span>
+            </button>
+            <button class="nav-item danger-text" data-target="emergency">
+                <i class="fa-solid fa-shield-heart"></i>
+                <span>SOS</span>
+            </button>
+        </nav>
+
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
