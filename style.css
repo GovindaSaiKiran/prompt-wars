@@ -50,8 +50,11 @@ ul,ol{list-style:none}
 
 /* --- Header --- */
 .app-header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;z-index:10}
-.logo{display:flex;align-items:center;gap:10px;font-size:1.15rem;font-weight:700}
-.logo i{color:var(--accent-blue)}
+.logo{display:flex;align-items:center;gap:12px;font-weight:700}
+.logo i{color:var(--accent-blue);font-size:1.4rem}
+.logo-text{display:flex;flex-direction:column}
+.logo-text span{font-size:1.2rem;line-height:1}
+.logo-text small{font-size:0.65rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
 .icon-btn{background:var(--bg-card);border:1px solid var(--border-glass);color:var(--text-primary);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;transition:background var(--transition)}
 .icon-btn:hover{background:var(--bg-card-hover)}
 .badge{position:absolute;top:0;right:0;width:10px;height:10px;background:var(--accent-red);border-radius:50%}

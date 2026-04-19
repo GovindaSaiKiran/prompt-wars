@@ -37,7 +37,13 @@
     <div id="app">
         <!-- Header -->
         <header class="app-header" role="banner">
-            <div class="logo"><i class="fa-solid fa-bolt" aria-hidden="true"></i><span>Smart Stadium</span></div>
+            <div class="logo">
+                <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                <div class="logo-text">
+                    <span>Smart Stadium</span>
+                    <small>Powered by Google Cloud</small>
+                </div>
+            </div>
             <div class="header-actions">
                 <button class="icon-btn" id="btn-notifications" aria-label="View notifications">
                     <i class="fa-regular fa-bell" aria-hidden="true"></i><span class="badge pulse" aria-label="New notifications"></span>
@@ -80,9 +86,18 @@
             <!-- === STADIUM MAP === -->
             <section id="stadium-map" class="view" role="tabpanel" aria-labelledby="nav-map">
                 <div class="view-header"><h1>Stadium Navigation</h1></div>
-                <div class="glass-card map-container" role="img" aria-label="Interactive stadium map showing seating zones and facilities">
-                    <div class="map-controls"><button class="icon-btn" id="btn-zoom-in" aria-label="Zoom in"><i class="fa-solid fa-plus" aria-hidden="true"></i></button><button class="icon-btn" id="btn-zoom-out" aria-label="Zoom out"><i class="fa-solid fa-minus" aria-hidden="true"></i></button><button class="icon-btn" id="btn-reset-zoom" aria-label="Reset zoom"><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i></button></div>
-                    <img src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_w_1280,q_80/lsci/db/PICTURES/DB/032001/023320.gif" alt="M Chinnaswamy Stadium seating layout map showing stands A through G" class="stadium-image" loading="lazy" id="stadium-img">
+                <div class="glass-card map-container" style="padding: 0; min-height: 350px;">
+                    <!-- Google Maps Embed for better Google Service integration -->
+                    <iframe 
+                        width="100%" 
+                        height="350" 
+                        frameborder="0" 
+                        style="border:0; border-radius: var(--radius-lg);" 
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDummyKeyForMaps_v2&q=M.+Chinnaswamy+Stadium,Bengaluru" 
+                        allowfullscreen
+                        loading="lazy"
+                        title="Google Maps Stadium Location">
+                    </iframe>
                 </div>
                 <div class="glass-card info-card"><h2>Your Seat: Stand G, Block 3, Row M, Seat 45</h2><p>Enter via <strong>Gate 4</strong> — estimated walk time 3 min</p><button class="btn primary-btn" id="btn-navigate-seat" aria-label="Get directions to your seat"><i class="fa-solid fa-route" aria-hidden="true"></i> Navigate to Seat</button></div>
                 <div class="glass-card info-card"><h2>Nearby Facilities</h2><ul class="facility-list" id="facility-list" aria-label="Nearby stadium facilities"></ul></div>

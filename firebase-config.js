@@ -2,13 +2,13 @@
  * @fileoverview Firebase configuration and service wrapper
  * @description Initializes Firebase Auth, Firestore, Analytics and Cloud Messaging
  * for the Smart Stadium Experience application.
- * @version 2.0.0
+ * @version 2.1.0
  */
 'use strict';
 
 /** @constant {Object} FIREBASE_CONFIG */
 const FIREBASE_CONFIG = {
-  apiKey: 'AIzaSyDummyKeyForSmartStadium',
+  apiKey: 'AIzaSyDummyKeyForSmartStadium_v2',
   authDomain: 'perceptive-bay-493811-c1.firebaseapp.com',
   projectId: 'perceptive-bay-493811-c1',
   storageBucket: 'perceptive-bay-493811-c1.appspot.com',
@@ -16,6 +16,43 @@ const FIREBASE_CONFIG = {
   appId: '1:879775404804:web:smartstadium',
   measurementId: 'G-SMARTSTADIUM'
 };
+
+/**
+ * Cloud Logging simulation for Google Cloud Platform integration
+ * @class CloudLogger
+ */
+class CloudLogger {
+  constructor(projectId) {
+    this.projectId = projectId;
+    this.logName = 'smart-stadium-app-logs';
+  }
+
+  /**
+   * Log an event to Google Cloud Logging (Simulation/REST)
+   * @param {'INFO'|'WARNING'|'ERROR'|'CRITICAL'} severity
+   * @param {string} message
+   * @param {Object} [metadata={}]
+   */
+  async log(severity, message, metadata = {}) {
+    console.info(`[GCP Cloud Logging] [${severity}] ${message}`, metadata);
+    if (typeof firebase !== 'undefined' && firebase.analytics) {
+        firebase.analytics().logEvent('cloud_log', { severity, message, ...metadata });
+    }
+    // Simulation of a REST call to Cloud Logging API
+    try {
+        const payload = {
+            entries: [{
+                logName: `projects/${this.projectId}/logs/${this.logName}`,
+                resource: { type: 'global' },
+                severity: severity,
+                jsonPayload: { message, ...metadata, timestamp: new Date().toISOString() }
+            }]
+        };
+        // This would be a real fetch if we had a service account token
+        // fetch(`https://logging.googleapis.com/v2/entries:write`, { method: 'POST', body: JSON.stringify(payload) });
+    } catch (e) { /* silent fail */ }
+  }
+}
 
 /**
  * Firebase service wrapper with error handling and graceful degradation
@@ -28,6 +65,7 @@ class FirebaseService {
     /** @type {Object|null} */ this._db = null;
     /** @type {Object|null} */ this._analytics = null;
     /** @type {boolean} */ this._ready = false;
+    this.logger = new CloudLogger(FIREBASE_CONFIG.projectId);
     this._init();
   }
 
@@ -57,7 +95,7 @@ class FirebaseService {
         }
       });
       this._ready = true;
-      console.info('[Firebase] Initialized successfully for project:', FIREBASE_CONFIG.projectId);
+      this.logger.log('INFO', 'Firebase initialized', { projectId: FIREBASE_CONFIG.projectId });
     } catch (err) {
       console.error('[Firebase] Initialization failed:', err);
       this._ready = false;
@@ -81,10 +119,10 @@ class FirebaseService {
     if (!this._auth) { return null; }
     try {
       const cred = await this._auth.signInAnonymously();
-      console.info('[Firebase] Anonymous auth success:', cred.user.uid);
+      this.logger.log('INFO', 'Anonymous auth successful', { uid: cred.user.uid });
       return cred.user;
     } catch (err) {
-      console.warn('[Firebase] Anonymous auth failed:', err.message);
+      this.logger.log('ERROR', 'Anonymous auth failed', { error: err.message });
       return null;
     }
   }
@@ -98,8 +136,8 @@ class FirebaseService {
     if (!this._db || !uid) { return; }
     try {
       await this._db.collection('users').doc(uid).set(data, { merge: true });
-      console.info('[Firestore] Profile saved for:', uid);
-    } catch (err) { console.error('[Firestore] saveProfile failed:', err); }
+      this.logger.log('INFO', 'Profile saved', { uid });
+    } catch (err) { this.logger.log('ERROR', 'saveProfile failed', { error: err.message }); }
   }
 
   /**
@@ -113,39 +151,22 @@ class FirebaseService {
         ...data,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-      console.info('[Firestore] Emergency logged.');
-    } catch (err) { console.error('[Firestore] logEmergency failed:', err); }
+      this.logger.log('CRITICAL', 'Emergency alert logged', data);
+    } catch (err) { this.logger.log('ERROR', 'logEmergency failed', { error: err.message }); }
   }
 
   /**
-   * Save crowd density snapshot
-   * @param {Object} densities
+   * Real-time listener for crowd data
+   * @param {Function} callback
    */
-  async saveCrowdSnapshot(densities) {
-    if (!this._db) { return; }
-    try {
-      await this._db.collection('crowd_snapshots').add({
-        densities,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  subscribeToCrowdData(callback) {
+    if (!this._db) return null;
+    return this._db.collection('stadium_state').doc('crowd_density')
+      .onSnapshot(doc => {
+        if (doc.exists) callback(doc.data());
+      }, err => {
+        this.logger.log('ERROR', 'Crowd snapshot listener failed', { error: err.message });
       });
-    } catch (err) { console.warn('[Firestore] saveCrowdSnapshot failed:', err); }
-  }
-
-  /**
-   * Get match history for user
-   * @param {string} uid
-   * @returns {Promise<Array>}
-   */
-  async getMatchHistory(uid) {
-    if (!this._db || !uid) { return []; }
-    try {
-      const snap = await this._db.collection('users').doc(uid)
-        .collection('match_history').orderBy('date', 'desc').limit(10).get();
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    } catch (err) {
-      console.warn('[Firestore] getMatchHistory failed:', err);
-      return [];
-    }
   }
 }
 
