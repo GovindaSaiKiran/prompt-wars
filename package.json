@@ -1,0 +1,34 @@
+{
+  "name": "smart-stadium-experience",
+  "version": "2.0.0",
+  "description": "Premium smart stadium experience for IPL attendees — crowd management, real-time coordination, and digital ticketing",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest --coverage --verbose",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --ext .js",
+    "start": "python -m http.server 8080",
+    "dev": "python -m http.server 8080"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "eslint": "^8.56.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "collectCoverageFrom": [
+      "app.js",
+      "firebase-config.js",
+      "sw.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  }
+}
